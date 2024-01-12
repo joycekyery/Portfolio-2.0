@@ -7,7 +7,7 @@ import * as THREE from "three";
 import axios from "axios";
 useGLTF.preload("./jellyfish/jellyfish_icon.gltf");
 
-export function Jellyfishs({ isMobile }) {
+export function Fluid({ isMobile }) {
     const [vertex, setVertex] = useState("");
     const [fragment, setFragment] = useState("");
 
@@ -24,9 +24,9 @@ export function Jellyfishs({ isMobile }) {
       texture1:{value: texture},
       hasTexture:{value:false},
       resolution: { value: new THREE.Vector4() },
-      baseFirst : { value: new THREE.Vector3(120./255., 158./255., 113./255.)},
-      baseSecond : { value: new THREE.Vector3(224./255., 148./255., 66./255.)},
-      baseThird : { value: new THREE.Vector3(0./255., 0./255., 0./255.)},
+      baseFirst : { value: new THREE.Vector3(174./255., 221./255., 224./255.)},
+      baseSecond : { value: new THREE.Vector3(221./255., 207./255., 207./255.)},
+      baseThird : { value: new THREE.Vector3(227./255., 202./255., 202./255.)},
     }),
     []
   );
@@ -47,7 +47,7 @@ export function Jellyfishs({ isMobile }) {
 
     let time = state.clock.getElapsedTime();
 
-    meshRef.current.material.uniforms.time.value = time*0.1;
+    meshRef.current.material.uniforms.time.value = time*0.3;
 }
   });
 
@@ -99,12 +99,50 @@ const FluidBackground = (props) => {
 
   return (
   
-        <Jellyfishs isMobile={isMobile} />
+        <Fluid isMobile={isMobile} />
 
   );
 };
 
 
+const FluidBackgroundCanvas = () => {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    // Add a listener for changes to the screen size
+    const mediaQuery = window.matchMedia("(max-width: 500px)");
+
+    // Set the initial value of the `isMobile` state variable
+    setIsMobile(mediaQuery.matches);
+
+    // Define a callback function to handle changes to the media query
+    const handleMediaQueryChange = (event) => {
+      setIsMobile(event.matches);
+    };
+
+    // Add the callback function as a listener for changes to the media query
+    mediaQuery.addEventListener("change", handleMediaQueryChange);
+
+    // Remove the listener when the component is unmounted
+    return () => {
+      mediaQuery.removeEventListener("change", handleMediaQueryChange);
+    };
+  }, []);
+
+  return (
+    <Canvas
+    //   frameloop='demand'
+      shadows
+    //   dpr={[1, 2]}
+    orthographic 
+    camera={{ zoom: 200, position: [0, 0, 100]}}
+      gl={{ preserveDrawingBuffer: true }}
+    >
+            <FluidBackground/>
+      <Preload all />
+    </Canvas>
+  );
+};
 
 
-export default FluidBackground;
+export  {FluidBackground,FluidBackgroundCanvas};
