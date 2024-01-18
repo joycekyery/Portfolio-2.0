@@ -1,0 +1,84 @@
+import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { Canvas,useFrame, } from "@react-three/fiber";
+import { Clone , Preload, useGLTF,useTexture  } from "@react-three/drei";
+import * as THREE from "three";
+import axios from "axios";
+import{fadeIn, zoomIn} from"../utils/motion"
+import { FaRegWindowMaximize,FaGithub  } from "react-icons/fa";
+import { IconContext } from "react-icons";
+import { fakeImgSet } from "./fakeData";
+import Dialog from "./Dialog";
+
+const Art = ({ isMobile })=> {
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [imageDetail, setImageDetail] = useState({});
+  const years=[...Array(5).keys()]
+  .map((x) => x + 2019)
+ const [active, setActive] = useState(years[0]);
+
+const imgset=fakeImgSet
+
+  return (
+    <div className="flex flex-col items-start justify-center w-screen h-screen " >
+ <div className="self-center flex flex-row items-start justify-between w-[96vw] h-[93vh] z-[10]
+  rounded-[43px] ">
+    {/* Left section with 1:2 ratio */}
+    <div className="flex-1 flex flex-col items-start justify-between w-[32vw] h-full">
+        <motion.p variants={fadeIn("", "", 1, 5)}
+          className="self-center text-[48px] md:text-[64px] leading-[47px] pl-[45px] lg:pl-0 ">
+            Artworks
+        </motion.p>
+        <div className="pb-32 ml-16"  >
+            <ul className='list-none flex justify-end items-start flex-1 flex-col gap-4 '>
+              {years.map((yr,id) => (
+                <li
+                  key={id}
+                  onClick={() => {
+                    setActive(yr);
+                  }}
+                >
+                  <p className={`  text-secondary hover:text-white text-[18px] font-medium cursor-pointer
+                  ${
+                    active === yr ? "text-white text-[24px]" : "text-secondary" 
+                  } `} >{yr}</p>
+                </li>
+              ))}
+            </ul>
+            </div>
+          </div>
+
+    {/* Right section with 2:2 ratio */}
+    <div className="flex-2 flex flex-col items-start  justify-between w-[64vw] h-full">
+   {imgset!==null&&
+   <div className="grid grid-cols-4 gap-4 overflow-auto scrollbar-[hidden] w-full "   >
+    {imgset.map((i,k)=>
+      (
+<div  key={k} className="  bg-cover bg-no-repeat bg-center h-[200px] max-w-content rounded-[43px] "
+ style={{ backgroundImage: `url(${i.image})` }} 
+ onClick={()=>{
+  setImageDetail(i);
+  setIsDialogOpen(true);}}/>
+      )
+    )
+    }
+
+    </div>
+    }
+    </div>
+  </div>
+    <Dialog isOpen={isDialogOpen} onClose={() => {
+    setIsDialogOpen(false)}} content={
+<img
+  className="max-w-content h-[100vh] object-cover p-9"
+  src={imageDetail.image}
+  alt={imageDetail.title}
+/>
+
+    } />
+    </div>
+    
+  );
+}
+
+export default Art;

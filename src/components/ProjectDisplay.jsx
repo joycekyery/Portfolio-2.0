@@ -8,6 +8,7 @@ import{fadeIn, zoomIn} from"../utils/motion"
 import {projects} from "../assets/project"
 import { FaRegWindowMaximize,FaGithub  } from "react-icons/fa";
 import { IconContext } from "react-icons";
+import { TypingText } from "./TypingText";
 
 const ProjectDisplay = ({ isMobile })=> {
  const [active, setActive] = useState(projects[0]);
@@ -19,10 +20,14 @@ const ProjectDisplay = ({ isMobile })=> {
     {/* Left section with 1:2 ratio */}
     <div className="flex-1 flex flex-col items-start justify-between w-[32vw] h-full">
         
-        <motion.p variants={fadeIn("", "", 1, 5)}
-          className="self-center text-[48px] md:text-[64px] leading-[105px] pl-[45px] lg:pl-0 ">Projects</motion.p>
-        <div className="self-center pb-32" >
-            <ul className='list-none flex justify-end items-start flex-1 flex-col gap-4'>
+        <TypingText 
+        // animation={fadeIn("", "", 1, 5)}
+          className="self-center text-[48px] md:text-[64px] leading-[47px] pl-[45px] lg:pl-0 "
+          text={"Projects"}
+          />
+            
+        <motion.div className="pb-32 ml-16"  >
+            <ul className='list-none flex justify-end items-start flex-1 flex-col gap-4 '>
               {projects.map((proj,id) => (
                 <li
                   key={id}
@@ -30,21 +35,21 @@ const ProjectDisplay = ({ isMobile })=> {
                     setActive(proj);
                   }}
                 >
-                  <p className={` ml-16 text-secondary hover:text-white text-[18px] font-medium cursor-pointer
+                  <p className={`  text-secondary hover:text-white text-[18px] font-medium cursor-pointer
                   ${
                     active.title === proj.title ? "text-white text-[24px]" : "text-secondary" 
                   } `} >{proj.title}</p>
                 </li>
               ))}
             </ul>
-            </div>
+            </motion.div>
 
           </div>
 
     {/* Right section with 2:2 ratio */}
     <div className="flex-2 flex flex-col items-start  justify-between w-[64vw] h-full">
    {active!==null&& 
-   <div className=" self-center flex flex-row items-start h-full justify-between w-full "  >
+   <div className=" self-center flex flex-col xl:flex-row  items-start h-full justify-between w-full "  >
 <div className="flex flex-col items-start  justify-center w-full h-full px-12">
 <motion.p variants={fadeIn("", "", 1, 5)}
           className="self-center text-[18px] md:text-[24px]  pl-[45px] lg:pl-0 ">{active.description}</motion.p>
@@ -61,7 +66,7 @@ const ProjectDisplay = ({ isMobile })=> {
             <button
             className="flex flex-row items-center p-3  
                 border border-solid border-white rounded-[10px] hover:bg-white hover:text-secondary ">
-                    <p  className="text-[16px] md:text-[24px] pr-3" > Visit</p>
+                    <p  className="text-[16px] md:text-[24px] pr-3" >Source Code</p>
           <IconContext.Provider  value={{ className: 'w-[28px] h-[28px] object-contain' }}>
           <FaGithub/>
         </IconContext.Provider>
@@ -77,7 +82,7 @@ const ProjectDisplay = ({ isMobile })=> {
           <button
           className="flex flex-row items-center p-3  
               border border-solid border-white rounded-[10px] hover:bg-white hover:text-secondary ">
-                  <p  className="text-[16px] md:text-[24px] pr-3" > Visit</p>
+                  <p  className="text-[16px] md:text-[24px] pr-3" >Visit</p>
         <IconContext.Provider  value={{ className: 'w-[28px] h-[28px] object-contain' }}>
         <FaRegWindowMaximize/>
       </IconContext.Provider>

@@ -32,12 +32,6 @@ const AboutMe = ({ isMobile })=> {
     <motion.p variants={fadeIn("", "", 1, 5)}
           className=' text-[64px]'>Projects</motion.p>
   </button>
-  <button className="ml-16 text-[#DDCFCF] hover:text-white text-[18px] font-medium cursor-pointer"
-        onMouseEnter={() => setIsHover(true)}
-        onMouseLeave={() => setIsHover(false)}> 
-    <motion.p variants={fadeIn("", "", 1, 5)}
-          className=' text-[64px]'>Education</motion.p>
-  </button>
   <button className="ml-32 text-[#DDCFCF] hover:text-white text-[18px] font-medium cursor-pointer"
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}> 
@@ -48,7 +42,7 @@ const AboutMe = ({ isMobile })=> {
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}> 
     <motion.p variants={fadeIn("", "", 1, 5)}
-          className=' text-[64px]'>Contact</motion.p>
+          className=' text-[64px]'>Info</motion.p>
   </button>
     </div>
   </div>
