@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Canvas,useFrame, } from "@react-three/fiber";
-import { Clone , Preload, useGLTF,useTexture  } from "@react-three/drei";
-import * as THREE from "three";
 import axios from "axios";
-import{fadeIn, zoomIn} from"../utils/motion"
+import{ fadeIn, zoomIn} from"../utils/motion"
 import { FaRegWindowMaximize,FaGithub  } from "react-icons/fa";
 import { IconContext } from "react-icons";
 import { fakeImgSet } from "./fakeData";
@@ -14,7 +11,7 @@ const Art = ({ isMobile })=> {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [imageDetail, setImageDetail] = useState({});
   const years=[...Array(5).keys()]
-  .map((x) => x + 2019)
+  .map((x) => x + 2019).reverse()
  const [active, setActive] = useState(years[0]);
 
 const imgset=fakeImgSet
@@ -62,18 +59,23 @@ const imgset=fakeImgSet
       )
     )
     }
-
     </div>
     }
     </div>
   </div>
     <Dialog isOpen={isDialogOpen} onClose={() => {
     setIsDialogOpen(false)}} content={
+      <div className="flex flex-col items-center max-w-content h-[100vh]> w-full">
 <img
-  className="max-w-content h-[100vh] object-cover p-9"
+  className={`max-w-fit  object-cover 
+  ${imageDetail.description!=="" ? "px-9 pt-9 pb-6 h-[calc(100vh-60px)]"
+  : "h-[100vh] p-9"}`}
   src={imageDetail.image}
   alt={imageDetail.title}
 />
+{imageDetail.description!==""&& 
+<p className="text-center text-[16px] text-secondary bg-white w-full" >{imageDetail.description}</p>}
+</div>
 
     } />
     </div>

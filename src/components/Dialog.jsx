@@ -32,7 +32,7 @@ const Dialog = ({ isOpen, onClose, content=()=>{} }) => {
         <IoMdCloseCircle/>
       </IconContext.Provider>
       </button>
-      <div className="flex items-center justify-center h-100 w-100" onClick={handleClickOutside}>
+      <div className="flex items-center justify-center h-full w-full" onClick={handleClickOutside}>
   
             {/* Dialog content goes here */}
             {content }
