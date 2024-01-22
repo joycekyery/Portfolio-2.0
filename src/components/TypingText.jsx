@@ -10,7 +10,7 @@ const defaultAnimations = {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.1,
+      duration: 0.05,
     },
   },
 };
@@ -54,6 +54,7 @@ export const TypingText = ({
     <Wrapper className={className}>
       <span className="sr-only">{text}</span>
       <motion.span
+        key={text}
         ref={ref}
         initial="hidden"
         animate={controls}

@@ -12,6 +12,8 @@ import { TypingText } from "./TypingText";
 
 const ProjectDisplay = ({ isMobile })=> {
  const [active, setActive] = useState(projects[0]);
+ const [isAnimating, setIsAnimating] = useState(true);
+
 
   return (
     <div className="flex flex-col items-start justify-center w-screen h-screen " >
@@ -21,40 +23,52 @@ const ProjectDisplay = ({ isMobile })=> {
     <div className="flex-1 flex flex-col items-start justify-between w-[32vw] h-full">
         
         <TypingText 
-        // animation={fadeIn("", "", 1, 5)}
           className="self-center text-[48px] md:text-[64px] leading-[47px] pl-[45px] lg:pl-0 "
           text={"Projects"}
           />
-            
-        <motion.div className="pb-32 ml-16"  >
+        <div className="pb-32 ml-16"  >
             <ul className='list-none flex justify-end items-start flex-1 flex-col gap-4 '>
               {projects.map((proj,id) => (
-                <li
+                <motion.li
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: id * 0.05 }} // Stagger the animation
                   key={id}
                   onClick={() => {
                     setActive(proj);
+                    setIsAnimating(!isAnimating);
                   }}
                 >
                   <p className={`  text-secondary hover:text-white text-[18px] font-medium cursor-pointer
                   ${
                     active.title === proj.title ? "text-white text-[24px]" : "text-secondary" 
                   } `} >{proj.title}</p>
-                </li>
+                </motion.li>
               ))}
             </ul>
-            </motion.div>
+            </div>
 
           </div>
 
     {/* Right section with 2:2 ratio */}
-    <div className="flex-2 flex flex-col items-start  justify-between w-[64vw] h-full">
-   {active!==null&& 
-   <div className=" self-center flex flex-col xl:flex-row  items-start h-full justify-between w-full "  >
-<div className="flex flex-col items-start  justify-center w-full h-full px-12">
-<motion.p variants={fadeIn("", "", 1, 5)}
-          className="self-center text-[18px] md:text-[24px]  pl-[45px] lg:pl-0 ">{active.description}</motion.p>
-          <motion.p variants={fadeIn("", "", 1, 5)}
-          className="self-center text-[24px] md:text-[32px]  pl-[45px] lg:pl-0 pt-5">{active.tools}</motion.p>
+    <motion.div 
+    key={isAnimating}
+     initial={{ opacity: 0, y: -20 }}
+     animate={{ opacity: 1, y: 0 } }
+     exit={{ opacity: 0, y: -20 }}
+     transition={{ duration: 0.4 }}
+    className="flex-2 flex flex-col items-start  justify-between w-[64vw] h-full">
+   {active!==null && 
+   <motion.div  
+   
+   className=" self-center flex flex-col xl:flex-row  items-start h-full justify-between w-full "  >
+  <motion.div 
+  
+  className="flex flex-col items-start  justify-center w-full h-full px-12">
+<p variants={fadeIn("", "", 1, 5)}
+          className="self-center text-[18px] md:text-[24px]  pl-[45px] lg:pl-0 ">{active.description}</p>
+          <p variants={fadeIn("", "", 1, 5)}
+          className="self-center text-[24px] md:text-[32px]  pl-[45px] lg:pl-0 pt-5">{active.tools}</p>
           <div className="flex flex-row items-center justify-between w-full px-32 pt-16" >
           {active.sourceCode && 
             <a
@@ -89,15 +103,15 @@ const ProjectDisplay = ({ isMobile })=> {
       </button></a>
           }
           </div>
-</div>
+</motion.div>
 <div className=" p-3  max-w-content h-full ">
 <div   className="  bg-cover bg-no-repeat bg-center w-[300px] h-full rounded-[43px] " style={{ backgroundImage: `url(${active.image})` }} >
 </div>
 
 </div>
-    </div>
+    </motion.div>
     }
-    </div>
+    </motion.div>
   </div>
     </div>
     

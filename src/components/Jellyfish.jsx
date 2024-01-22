@@ -8,7 +8,7 @@ import axios from "axios";
 import { easing } from 'maath'
 useGLTF.preload("./jellyfish/jellyfish_icon.gltf");
 
-const  Jellyfish=({ isMobile ,meshOnclick=()=>{},isRotatetion=false})=> {
+const  Jellyfish=({ isMobile ,meshOnclick=()=>{},isRotatetion=false,onLoaded=()=>{}})=> {
     const [vertex, setVertex] = useState("");
     const [fragment, setFragment] = useState("");
     const [dummy] = useState(() => new THREE.Object3D())
@@ -23,6 +23,11 @@ const  Jellyfish=({ isMobile ,meshOnclick=()=>{},isRotatetion=false})=> {
     axios.get("/shaders/threeColors/vertexShader.glsl").then((res) => setVertex(res.data));
     axios.get("/shaders/threeColors/fragmentShader.glsl").then((res) => setFragment(res.data));
   }, []);
+  useEffect(() => {
+    if (vertex !== "" || fragment !== "" ){
+      onLoaded();
+    }
+  }, [onLoaded,vertex,fragment]);
   const meshRef = useRef(null);
   const uniforms = useMemo(
     () => ({
@@ -97,7 +102,7 @@ const  Jellyfish=({ isMobile ,meshOnclick=()=>{},isRotatetion=false})=> {
 }
 
 
-const JellyfishCanvas = ({isMobile,meshOnclick, isRotatetion, cameraSetting={}} ) => {
+const JellyfishCanvas = ({isMobile,meshOnclick, isRotatetion, cameraSetting={},onLoaded}) => {
   return (
     <Canvas
     eventPrefix="client"
@@ -108,7 +113,10 @@ const JellyfishCanvas = ({isMobile,meshOnclick, isRotatetion, cameraSetting={}} 
     orthographic 
     camera={{ zoom: 100, position: [0, 0 ,100],...cameraSetting}}
     >
-        <Jellyfish isMobile={isMobile}meshOnclick={meshOnclick} isRotatetion={isRotatetion}/>
+        <Jellyfish onLoaded={onLoaded} 
+        isMobile={isMobile} 
+        meshOnclick={meshOnclick} 
+        isRotatetion={isRotatetion}/>
       <Preload all />
     </Canvas>
   );

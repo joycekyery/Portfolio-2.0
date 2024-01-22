@@ -17,8 +17,8 @@ const Info = ({ isMobile })=> {
  rounded-[43px] bg-gradient-to-l from-blue-500 to-70%">
     {/* Left section with 1:2 ratio */}
     <div className="flex-1 flex flex-col items-start justify-between w-[32vw] h-full">
-    <motion.p variants={fadeIn("", "", 1, 5)}
-          className="self-center text-[48px] md:text-[64px] leading-[47px] pl-[45px] lg:pl-0 ">Info</motion.p>
+    <p variants={fadeIn("", "", 1, 5)}
+          className="self-center text-[48px] md:text-[64px] leading-[47px] pl-[45px] lg:pl-0 ">Info</p>
           </div>
 
     {/* Right section with 2:2 ratio */}
@@ -30,7 +30,7 @@ const Info = ({ isMobile })=> {
             className="inline-block no-underline w-fit "
             >
             <button
-            className="flex flex-row items-center p-3  
+            className="flex flex-row items-center p-3 
                 border border-solid border-white rounded-[10px] hover:bg-white hover:text-secondary ">
           <IconContext.Provider  value={{ className: 'w-[28px] h-[28px] object-contain' }}>
           <FaGithub/>

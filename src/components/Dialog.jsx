@@ -17,7 +17,7 @@ const Dialog = ({ isOpen, onClose, content=()=>{} }) => {
       {isOpen && ( <motion.div className={`fixed inset-0 ${isOpen ? 'block' : 'hidden'} w-screen h-screen  z-[9999]
       backdrop-blur-md backdrop-filter bg-opacity-30 bg-white
       `}  transition={{
-        duration: 0.2,
+        duration: 0.5,
         ease: [0, 0.71, 0.2, 1.01]
       }}
       initial={{ opacity: 0 }}

@@ -5,9 +5,11 @@ import { Canvas,useFrame,useThree } from "@react-three/fiber";
 import {  Preload, useGLTF,useTexture  } from "@react-three/drei";
 import * as THREE from "three";
 import axios from "axios";
+import Loading from "./Loading";
 useGLTF.preload("./jellyfish/jellyfish_icon.gltf");
+import { motion, AnimatePresence } from 'framer-motion';
 
-export function Fluid({ isMobile }) {
+export function Fluid({ isMobile,onLoaded=()=>{}  }) {
     const [vertex, setVertex] = useState("");
     const [fragment, setFragment] = useState("");
 
@@ -17,6 +19,11 @@ export function Fluid({ isMobile }) {
     axios.get("/shaders/threeColors/vertexShader.glsl").then((res) => setVertex(res.data));
     axios.get("/shaders/threeColors/fragmentShader.glsl").then((res) => setFragment(res.data));
   }, []);
+  useEffect(() => {
+    if (vertex !== "" || fragment !== "" ){
+      onLoaded();
+    }
+  }, [onLoaded,vertex,fragment]);
   const meshRef = useRef(null);
   const uniforms = useMemo(
     () => ({
@@ -72,7 +79,7 @@ export function Fluid({ isMobile }) {
 }
 
 
-const FluidBackground = (props) => {
+const FluidBackground = ({onLoaded}) => {
    
   const [isMobile, setIsMobile] = useState(false);
 
@@ -99,14 +106,15 @@ const FluidBackground = (props) => {
 
   return (
   
-        <Fluid isMobile={isMobile} />
+        <Fluid isMobile={isMobile} onLoaded={onLoaded}/>
 
   );
 };
 
 
-const FluidBackgroundCanvas = () => {
+const FluidBackgroundCanvas = ({onLoaded}) => {
   const [isMobile, setIsMobile] = useState(false);
+  const [isFluidLoaded, setIsFluidLoaded] = useState(false);
 
   useEffect(() => {
     // Add a listener for changes to the screen size
@@ -130,6 +138,16 @@ const FluidBackgroundCanvas = () => {
   }, []);
 
   return (
+    <AnimatePresence>
+    {!isFluidLoaded &&
+    <motion.div key="loadingBg"
+     className="flex items-center justify-center w-screen h-screen bg-[#e3caca] fixed top-0 left-0 z-[10000]" 
+     initial={{ opacity: 1 }}
+     exit={{ opacity: 0, transition: { duration: 0.8, ease: 'easeOut' } }}
+      >
+    <Loading />
+    </motion.div>
+    }
     <Canvas
     //   frameloop='demand'
       shadows
@@ -138,9 +156,12 @@ const FluidBackgroundCanvas = () => {
     camera={{ zoom: 200, position: [0, 0, 100]}}
       gl={{ preserveDrawingBuffer: true }}
     >
-            <FluidBackground/>
+        <FluidBackground onLoaded={()=>{setIsFluidLoaded(true);
+        onLoaded(); 
+        }}/>
       <Preload all />
     </Canvas>
+  </AnimatePresence>
   );
 };
 
