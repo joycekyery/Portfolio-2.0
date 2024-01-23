@@ -16,14 +16,13 @@ const ProjectDisplay = ({ isMobile })=> {
 
 
   return (
-    <div className="flex flex-col items-start justify-center w-screen h-screen " >
- <div className="self-center flex flex-row items-start justify-between w-[96vw] h-[93vh] z-[10]
-  rounded-[43px] bg-gradient-to-l from-blue-500 to-70%">
+ <div className="self-center flex flex-row items-start justify-between w-full h-full 
+ rounded-[43px] bg-gradient-to-l from-blue-500 to-70%">
     {/* Left section with 1:2 ratio */}
     <div className="flex-1 flex flex-col items-start justify-between w-[32vw] h-full">
         
         <TypingText 
-          className="self-center text-[48px] md:text-[64px] leading-[47px] pl-[45px] lg:pl-0 "
+          className="self-center text-[48px] md:text-[64px] leading-[59px] pl-[45px] lg:pl-0 "
           text={"Projects"}
           />
         <div className="pb-32 ml-16"  >
@@ -113,7 +112,6 @@ const ProjectDisplay = ({ isMobile })=> {
     }
     </motion.div>
   </div>
-    </div>
     
   );
 }

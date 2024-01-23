@@ -7,6 +7,7 @@ import { IconContext } from "react-icons";
 import { fakeImgSet } from "./fakeData";
 import Dialog from "./Dialog";
 import Loading from "./Loading";
+import { TypingText } from "./TypingText";
 
 const Art = ({ isMobile })=> {
   const [year, setYear] = useState(2023); // Initial year
@@ -38,20 +39,25 @@ const Art = ({ isMobile })=> {
 
 
   return (
-    <div className="flex flex-col items-start justify-center w-screen h-screen " >
- <div className="self-center flex flex-row items-start justify-between w-[96vw] h-[93vh] z-[10]
-  rounded-[43px] ">
+  
+ <div 
+ className="self-center flex flex-row items-start justify-between w-full h-full 
+  rounded-[43px] "
+  >
     {/* Left section with 1:2 ratio */}
     <div className="flex-1 flex flex-col items-start justify-between w-[32vw] h-full">
-        <p variants={fadeIn("", "", 1, 5)}
-          className="self-center text-[48px] md:text-[64px] leading-[47px] pl-[45px] lg:pl-0 ">
-            Artworks
-        </p>
+        <TypingText
+          className="self-center text-[48px] md:text-[64px] leading-[59px] pl-[45px] lg:pl-0 "
+           text={"Artworks"}/>
+  
         <div className="pb-32 ml-16"  >
             <ul className='list-none flex justify-end items-start flex-1 flex-col gap-4 '>
               {years.map((yr,id) => (
-                <li
+                <motion.li
                   key={id}
+initial={{ opacity: 0, y: 20 }}
+animate={{ opacity: 1, y: 0 }}
+transition={{ duration: 0.5, delay: id * 0.1 }} // Stagger the animation
                   onClick={() => {
                     setYear(yr);
                   }}
@@ -60,7 +66,7 @@ const Art = ({ isMobile })=> {
                   ${
                     year === yr ? "text-white text-[24px]" : "text-secondary" 
                   } `} >{yr}</p>
-                </li>
+                </motion.li>
               ))}
             </ul>
             </div>
@@ -96,7 +102,6 @@ className="  bg-cover bg-no-repeat bg-center h-[200px] max-w-content rounded-[43
     }
     </AnimatePresence>
 
-    </div>
   </div>
     <Dialog isOpen={isDialogOpen} onClose={() => {
     setIsDialogOpen(false)}} content={

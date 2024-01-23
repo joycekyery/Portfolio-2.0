@@ -8,6 +8,7 @@ import Info from "./components/Info.jsx";
 import Art from "./components/Art.jsx";
 import "../src/css/index.scss";
 import Loading from "./components/Loading.jsx";
+import FloatingNavbar from "./components/FloatingNav.jsx";
 
 const App = () => {
   const [isMobile, setIsMobile] = useState(false);
@@ -36,8 +37,11 @@ const App = () => {
 
   return (
     <BrowserRouter>
-    {/* <Navbar/> */}
+    
     {isFluidLoaded &&
+    <div className="flex flex-col items-center justify-center w-screen h-screen" >
+    <div className="box-border border border-white rounded-[43px] w-[96vw] h-[93vh] z-[100]">
+    <FloatingNavbar/>
     <Routes>
         {/* <Route path="/" exact  element={<Home/>}/> */}
         {/* <Route path="/" exact  element={<AboutMe/>}/> */}
@@ -46,11 +50,13 @@ const App = () => {
         {/* <Route path="/" exact  element={<Art/>}/> */}
         {/* <Route path="/" exact  element={<Loading/>}/> */}
     </Routes>
+    </div>
+    </div>
     }
+    
     <div className="flex items-center justify-center w-screen h-screen  fixed top-0 left-0 z-[-9999]"  >
-    <div className="box-border border border-white rounded-[43px] w-[96vw] h-[93vh] block fixed  z-[100]  " />
     <FluidBackgroundCanvas onLoaded={()=>{ setIsFluidLoaded(true); }}/>
-      </div>
+    </div>
     </BrowserRouter>
   );
 }

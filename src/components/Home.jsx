@@ -16,13 +16,13 @@ const Home = ({ isMobile })=> {
 
   return (
     <AnimatePresence>
-    <div className="flex items-center justify-center w-screen h-screen ">
+    <div className="flex items-center justify-center w-full h-full ">
     {!isJellyfishLoaded ?
      <Loading />
     :
-          <div className=" flex flex-col items-start justify-between w-[96vw] h-[93vh] z-[10]" >
+          <div className=" flex flex-col items-start justify-between w-full h-full" >
           <TypingText 
-          className=' text-[64px] md:text-[128px] leading-[92px] pl-[45px]'
+          className=' text-[64px] md:text-[128px] leading-[92px] pl-[50px]'
           text={"YUNG-CHING LIN"}
           />
         <button className=" self-end pr-[58px] text-secondary hover:text-white text-[18px] font-medium cursor-pointer"
@@ -48,7 +48,7 @@ const Home = ({ isMobile })=> {
     </div>
     }
     </div>
-    <div  className="flex items-center justify-center w-screen h-screen  fixed top-0 left-0 " >
+    <div  className="flex items-center justify-center w-screen h-screen z-[-100] fixed top-0 left-0 " >
           <JellyfishCanvas meshOnclick={(e)=>{console.log(e)}} 
           isRotatetion={isHover} 
           onLoaded={()=>{setIsJellyfishLoaded(true);}}/>
