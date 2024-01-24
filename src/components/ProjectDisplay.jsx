@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { Canvas,useFrame, } from "@react-three/fiber";
-import { Clone , Preload, useGLTF,useTexture  } from "@react-three/drei";
-import * as THREE from "three";
-import axios from "axios";
 import{fadeIn, zoomIn} from"../utils/motion"
 import {projects} from "../assets/project"
 import { FaRegWindowMaximize,FaGithub  } from "react-icons/fa";

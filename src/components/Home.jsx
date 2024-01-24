@@ -9,10 +9,12 @@ import{fadeIn} from"../utils/motion"
 import Loading from "./Loading";
 import { TypingText } from "./TypingText";
 useGLTF.preload("./jellyfish/jellyfish_icon.gltf");
+import { Link, useNavigate } from "react-router-dom";
 
 const Home = ({ isMobile })=> {
  const [isHover,setIsHover]=useState(false)
  const [isJellyfishLoaded, setIsJellyfishLoaded] = useState(false);
+ const navigate = useNavigate();
 
   return (
     <AnimatePresence>
@@ -28,6 +30,14 @@ const Home = ({ isMobile })=> {
         <button className=" self-end pr-[58px] text-secondary hover:text-white text-[18px] font-medium cursor-pointer"
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}> 
+        <Link
+                      to={"aboutMe"}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        // navigate({l.link}, { state: nanoid() });
+                        navigate("/aboutMe");
+                      }}
+                    >
     <TypingText
           className=' text-[48px] md:text-[64px]'
           text={"About me"}
@@ -44,6 +54,7 @@ const Home = ({ isMobile })=> {
             },
           },}}
           />
+          </Link>
     </button>
     </div>
     }

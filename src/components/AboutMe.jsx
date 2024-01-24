@@ -8,12 +8,18 @@ import { JellyfishCanvas } from "./Jellyfish";
 import{fadeIn, zoomIn} from"../utils/motion"
 import Loading from "./Loading";
 import { TypingText } from "./TypingText";
+import { Link, useNavigate } from "react-router-dom";
 useGLTF.preload("./jellyfish/jellyfish_icon.gltf");
 
 const AboutMe = ({ isMobile })=> {
  const [isHover,setIsHover]=useState(false)
- const buttons= [{ml:"0", text:"Projects", link:'project'},{ml:"32", text:"Art", link:'art'},{ml:"48", text:"Info", link:'info'}]
+ const buttons= [
+{ml:"0", text:"Projects", link:'projects'},
+ {ml:"32", text:"Art", link:'artWorks'},
+ {ml:"48", text:"Info", link:'info'}]
+ const navigate = useNavigate();
 
+ 
   return (
        <AnimatePresence>
        <div className="self-center flex flex-row items-start justify-between w-full h-full 
@@ -43,13 +49,19 @@ const AboutMe = ({ isMobile })=> {
         className={`ml-${b.ml} text-[#DDCFCF] hover:text-white text-[18px] font-medium cursor-pointer`}
         onMouseEnter={() => setIsHover(true)}
         onMouseLeave={() => setIsHover(false)}> 
-    <p 
-          className=' text-[64px]'>{b.text}</p>
+        <Link
+                      to={`/${b.link}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        // navigate({l.link}, { state: nanoid() });
+                        navigate(`/${b.link}`);
+                      }}
+                    ><p 
+                    className=' text-[64px]'>{b.text}</p></Link>
+    
   </motion.button>
   )
       })}
-    
-  
     </div>
   </div>
     </AnimatePresence>
