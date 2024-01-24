@@ -1,9 +1,6 @@
 {
   "name": "YungChingLhome",
   "version": "1.0.0",
-  "engines": {
-    "node": "21.5.0"
-  },
   "description": "",
   "keywords": [],
   "main": "src/index.js",
@@ -34,11 +31,8 @@
     "vite": "^5.0.10"
   },
   "scripts": {
-    "start": "vite",
     "dev": "vite",
-    "build": "tsc && vite build",
-    "postinstall": "npm run build",
-    "serve-heroku": "vite --host 0.0.0.0 --port $PORT preview",
+    "build": "vite build",
     "preview": "vite preview"
   },
   "browserslist": [
