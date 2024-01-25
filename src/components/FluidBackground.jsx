@@ -1,86 +1,75 @@
-
-
-import React, {  useEffect, useMemo, useRef, useState } from "react";
-import { Canvas,useFrame,useThree } from "@react-three/fiber";
-import {  Preload, useGLTF,useTexture  } from "@react-three/drei";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { Canvas, useFrame, useThree } from "@react-three/fiber";
+import { Preload, useGLTF, useTexture } from "@react-three/drei";
 import * as THREE from "three";
 import axios from "axios";
 import Loading from "./Loading";
 useGLTF.preload("./jellyfish/jellyfish_icon.gltf");
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence } from "framer-motion";
 
-export function Fluid({ isMobile,onLoaded=()=>{}  }) {
-    const [vertex, setVertex] = useState("");
-    const [fragment, setFragment] = useState("");
+export function Fluid({ isMobile, onLoaded = () => {} }) {
+  const [vertex, setVertex] = useState("");
+  const [fragment, setFragment] = useState("");
 
   const texture = useTexture("./jellyfish/Material__2basecolortexture.png");
   useEffect(() => {
     // fetch the vertex and fragment shaders from public folder
-    axios.get("/shaders/threeColors/vertexShader.glsl").then((res) => setVertex(res.data));
-    axios.get("/shaders/threeColors/fragmentShader.glsl").then((res) => setFragment(res.data));
+    axios
+      .get("/shaders/threeColors/vertexShader.glsl")
+      .then((res) => setVertex(res.data));
+    axios
+      .get("/shaders/threeColors/fragmentShader.glsl")
+      .then((res) => setFragment(res.data));
   }, []);
   useEffect(() => {
-    if (vertex !== "" || fragment !== "" ){
+    if (vertex !== "" || fragment !== "") {
       onLoaded();
     }
-  }, [onLoaded,vertex,fragment]);
+  }, [onLoaded, vertex, fragment]);
   const meshRef = useRef(null);
   const uniforms = useMemo(
     () => ({
       time: { value: 0 },
-      texture1:{value: texture},
-      hasTexture:{value:false},
+      texture1: { value: texture },
+      hasTexture: { value: false },
       resolution: { value: new THREE.Vector4() },
-      baseFirst : { value: new THREE.Vector3(174./255., 221./255., 224./255.)},
-      baseSecond : { value: new THREE.Vector3(221./255., 207./255., 207./255.)},
-      baseThird : { value: new THREE.Vector3(227./255., 202./255., 202./255.)},
+      baseFirst: { value: new THREE.Vector3(174 / 255, 221 / 255, 224 / 255) },
+      baseSecond: { value: new THREE.Vector3(221 / 255, 207 / 255, 207 / 255) },
+      baseThird: { value: new THREE.Vector3(227 / 255, 202 / 255, 202 / 255) },
     }),
     []
   );
 
-  let shader= new THREE.ShaderMaterial(
-    {
-
-        uniforms: {...uniforms, },
-        vertexShader: vertex,
-        fragmentShader: fragment,
-        
-    
-    }
-
-  )
+  let shader = new THREE.ShaderMaterial({
+    uniforms: { ...uniforms },
+    vertexShader: vertex,
+    fragmentShader: fragment,
+  });
   useFrame((state) => {
-    if(meshRef.current!=null){
+    if (meshRef.current != null) {
+      let time = state.clock.getElapsedTime();
 
-    let time = state.clock.getElapsedTime();
-
-    meshRef.current.material.uniforms.time.value = time*0.3;
-}
+      meshRef.current.material.uniforms.time.value = time * 0.3;
+    }
   });
 
-  const size = useThree(state => state.size)
-  const { factor } = useThree(state => state.viewport)
-  if (vertex == "" || fragment == "" ) return null;
+  const size = useThree((state) => state.size);
+  const { factor } = useThree((state) => state.viewport);
+  if (vertex == "" || fragment == "") return null;
   return (
-
-                <mesh ref={meshRef} >
-
-
-            <planeGeometry  args={[size.width, size.height]} scale={factor}/>
+    <mesh ref={meshRef}>
+      <planeGeometry args={[size.width, size.height]} scale={factor} />
       <shaderMaterial
-        uniforms={{...uniforms, hasTexture:{value:false},}}
+        uniforms={{ ...uniforms, hasTexture: { value: false } }}
         vertexShader={vertex}
         fragmentShader={fragment}
         side={THREE.DoubleSide}
       />
-            </mesh>
-       
-    );
+    </mesh>
+  );
 }
 
-
-const FluidBackground = ({onLoaded}) => {
-   
+const FluidBackground = ({ onLoaded }) => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -104,15 +93,10 @@ const FluidBackground = ({onLoaded}) => {
     };
   }, []);
 
-  return (
-  
-        <Fluid isMobile={isMobile} onLoaded={onLoaded}/>
-
-  );
+  return <Fluid isMobile={isMobile} onLoaded={onLoaded} />;
 };
 
-
-const FluidBackgroundCanvas = ({onLoaded}) => {
+const FluidBackgroundCanvas = ({ onLoaded }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [isFluidLoaded, setIsFluidLoaded] = useState(false);
 
@@ -139,31 +123,34 @@ const FluidBackgroundCanvas = ({onLoaded}) => {
 
   return (
     <AnimatePresence>
-    {!isFluidLoaded &&
-    <motion.div key="loadingBg"
-     className="flex items-center justify-center w-screen h-screen bg-[#e3caca] fixed top-0 left-0 z-[10000]" 
-     initial={{ opacity: 1 }}
-     exit={{ opacity: 0, transition: { duration: 0.8, ease: 'easeOut' } }}
+      {!isFluidLoaded && (
+        <motion.div
+          key="loadingBg"
+          className="flex items-center justify-center w-screen h-screen bg-[#e3caca] fixed top-0 left-0 z-[10000]"
+          initial={{ opacity: 1 }}
+          exit={{ opacity: 0, transition: { duration: 0.8, ease: "easeOut" } }}
+        >
+          <Loading />
+        </motion.div>
+      )}
+      <Canvas
+        //   frameloop='demand'
+        shadows
+        //   dpr={[1, 2]}
+        orthographic
+        camera={{ zoom: 200, position: [0, 0, 100] }}
+        gl={{ preserveDrawingBuffer: true }}
       >
-    <Loading />
-    </motion.div>
-    }
-    <Canvas
-    //   frameloop='demand'
-      shadows
-    //   dpr={[1, 2]}
-    orthographic 
-    camera={{ zoom: 200, position: [0, 0, 100]}}
-      gl={{ preserveDrawingBuffer: true }}
-    >
-        <FluidBackground onLoaded={()=>{setIsFluidLoaded(true);
-        onLoaded(); 
-        }}/>
-      <Preload all />
-    </Canvas>
-  </AnimatePresence>
+        <FluidBackground
+          onLoaded={() => {
+            setIsFluidLoaded(true);
+            onLoaded();
+          }}
+        />
+        <Preload all />
+      </Canvas>
+    </AnimatePresence>
   );
 };
 
-
-export  {FluidBackground,FluidBackgroundCanvas};
+export { FluidBackground, FluidBackgroundCanvas };

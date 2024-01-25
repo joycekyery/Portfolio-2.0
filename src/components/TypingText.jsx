@@ -40,13 +40,13 @@ export const TypingText = ({
         }, repeatDelay);
       }
     };
-    
+
     if (isInView) {
       show();
     } else {
       controls.start("hidden");
     }
-    
+
     return () => clearTimeout(timeout);
   }, [isInView]);
 
@@ -84,6 +84,5 @@ export const TypingText = ({
         ))}
       </motion.span>
     </Wrapper>
-
-);
+  );
 };

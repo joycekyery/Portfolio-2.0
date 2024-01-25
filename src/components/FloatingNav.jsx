@@ -1,8 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { MdOutlineMenu } from "react-icons/md";
 import { IconContext } from "react-icons";
-import { navLinks } from '../constants/index';
+import { navLinks } from "../constants/index";
 import { Link, useNavigate } from "react-router-dom";
 
 const FloatingNavbar = () => {
@@ -21,11 +21,11 @@ const FloatingNavbar = () => {
 
   useEffect(() => {
     // Attach the event listener when the component mounts
-    document.addEventListener('click', handleClickOutside);
+    document.addEventListener("click", handleClickOutside);
 
     // Detach the event listener when the component unmounts
     return () => {
-      document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener("click", handleClickOutside);
     };
   }, []);
 
@@ -37,7 +37,9 @@ const FloatingNavbar = () => {
           whileTap={{ scale: 0.9 }}
           onClick={toggleExpansion}
         >
-          <IconContext.Provider value={{ className: 'w-[28px] h-[28px] object-contain' }}>
+          <IconContext.Provider
+            value={{ className: "w-[28px] h-[28px] object-contain" }}
+          >
             <MdOutlineMenu />
           </IconContext.Provider>
         </motion.button>
@@ -51,21 +53,23 @@ const FloatingNavbar = () => {
               className="absolute top-4 left-0 mt-12 p-4 bg-secondary text-white rounded-md shadow-md
                min-w-28"
             >
-              <ul >
-                {
-                  navLinks.map((l,k)=>{
-                   return( <li key={k}>
-                    <Link
-                      to={l.link}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        // navigate({l.link}, { state: nanoid() });
-                        navigate(l.link);
-                      }}
-                    >{l.title}</Link>
-                </li>)
-                  })
-                }
+              <ul>
+                {navLinks.map((l, k) => {
+                  return (
+                    <li key={k}>
+                      <Link
+                        to={l.link}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          // navigate({l.link}, { state: nanoid() });
+                          navigate(l.link);
+                        }}
+                      >
+                        {l.title}
+                      </Link>
+                    </li>
+                  );
+                })}
               </ul>
             </motion.div>
           )}
