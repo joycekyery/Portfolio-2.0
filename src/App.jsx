@@ -37,7 +37,7 @@ function App() {
             <FloatingNavbar />
             <Routes>
               {navLinks.map((l, k) => (
-                <Route key={k} path={l.link} exact element={l.component} />
+                <Route key={k} path={l.link} element={l.component} />
               ))}
             </Routes>
           </div>
