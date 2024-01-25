@@ -1,8 +1,17 @@
 import dontRecipeImage from './dontForgetRecipe.png'
 import onwardImage from './onward.jpg'
 import personalWebsiteImage from './personalWebsite.png'
+import personalWebsiteImagev2 from './personalWebsite2.0.png'
 import NoTimeToDieImage from './No-Time-To-Die.gif'
 export const projects = [
+  {
+    title: 'Personal Website 2.0',
+    image: personalWebsiteImagev2,
+    description: 'My personal website and portfolio',
+    tools: 'React JS + Vite + TailwindCSS + Three.js + MongoDb + NodeJS + Express',
+    visit: 'https://www.yungchingl.com/',
+    sourceCode: 'https://github.com/joycekyery/Portfolio-2.0',
+  },
   {
     title: 'Dont Forget Your Recipe',
     image: dontRecipeImage,
@@ -17,7 +26,7 @@ export const projects = [
     image: personalWebsiteImage,
     description: 'My personal website and portfolio',
     tools: 'React JS + Material UI + CSS + MongoDb + NodeJS + Express',
-    visit: 'https://www.yungchingl.com/',
+    visit: 'https://yung-chingl-a276fb74b3ca.herokuapp.com/',
     sourceCode: 'https://github.com/joycekyery/joycekyery.github.io',
   },
   {
