@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { AnimatePresence } from "framer-motion";
 import { JellyfishCanvas } from "./Jellyfish";
 import Loading from "./Loading";
 import { TypingText } from "./TypingText";
